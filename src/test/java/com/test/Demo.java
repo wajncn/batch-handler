@@ -21,58 +21,36 @@ public class Demo {
     }
 
     private static void batchList(ArrayList<Adomain> adomains) {
-        BatchExecute.BatchListHandler<Adomain, String> handler = new BatchExecute.BatchListHandler<Adomain, String>() {
+        BatchExecute.BatchListHandler<Adomain> handler = new BatchExecute.BatchListHandler<Adomain>() {
             @Override
-            public String handler(List<Adomain> t) {
+            public void handler(List<Adomain> t) {
                 try {
-//                    System.out.println("BatchListHandler:"+t.size());
-                    Thread.sleep(3000);
+                    System.out.println("BatchListHandler:"+t.size());
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return "111111111";
-            }
-
-
-            @Override
-            public void success(List<Adomain> t, String s) {
-
-            }
-
-            @Override
-            public void error(List<Adomain> t, Exception e) {
-
             }
         };
-        BatchExecute<Adomain, String> execute = new BatchExecute<Adomain, String>(handler, 5);
-        execute.setDebug(true).execute(adomains);
+        BatchExecute<Adomain> execute = new BatchExecute<Adomain>(handler, 5);
+        execute.setDetailLog(true).execute(adomains);
     }
 
 
     private static void batchSingle(ArrayList<Adomain> adomains) {
-        BatchExecute.BatchSingleHandler<Adomain, String> handler = new BatchExecute.BatchSingleHandler<Adomain, String>() {
+        BatchExecute.BatchSingleHandler<Adomain> handler = new BatchExecute.BatchSingleHandler<Adomain>() {
             @Override
-            public String handler(Adomain adomain) {
+            public void handler(Adomain adomain) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return null;
             }
 
-            @Override
-            public void success(Adomain adomain, String s) {
-
-            }
-
-            @Override
-            public void error(Adomain adomain, Exception e) {
-
-            }
         };
-        BatchExecute<Adomain, String> execute = new BatchExecute<Adomain, String>(handler, 200);
-        execute.setDebug(false).execute(adomains);
+        BatchExecute<Adomain> execute = new BatchExecute<Adomain>(handler, 200);
+        execute.setDetailLog(false).execute(adomains);
         //[main] 批处理完成 数据共[10000]条  共耗时millis:[6186]
     }
 
